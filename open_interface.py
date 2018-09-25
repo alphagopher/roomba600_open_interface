@@ -1,17 +1,78 @@
-import roomba_command
+import command
 import sys
 import serial
 import time
 import datetime
 import math
 
-START_OI = roomba_command.RoombaCommand("START_OI", 128, [])
-STOP_OI = roomba_command.RoombaCommand("STOP_OI", 173, [])
-SAFE_MODE = roomba_command.RoombaCommand("SAFE_MODE", 131, [])
-FULL_MODE = roomba_command.RoombaCommand("FULL_MODE", 132, [])
-DRIVE = roomba_command.RoombaCommand("DRIVE", 137, [])
-BRUSHES_ON = roomba_command.RoombaCommand("BRUSHES_ON", 144, [100, 100, 100])
-BRUSHES_OFF = roomba_command.RoombaCommand("BRUSHES_OFF", 144, [0, 0, 0])
+#Getting Started Commands
+#Page 8
+START = command.Command("START", 128, [])
+RESET = command.Command("RESET", 7, [])
+STOP = command.Command("STOP", 173, [])
+
+#Page 9
+BAUD = command.Command("BAUD", 129, []) #Add DataBytes
+
+#Page 10
+SAFE_MODE = command.Command("SAFE_MODE", 131, [])
+FULL_MODE = command.Command("FULL_MODE", 132, [])
+
+#Cleaning Commands
+#Page 11
+CLEAN = command.Command("CLEAN", 135, [])
+MAX = command.Command("MAX", 136, [])
+SPOT = command.Command("SPOT", 134, [])
+SEEK_DOCK = command.Command("SEEK_DOCK", 143, [])
+POWER = command.Command("POWER", 133, [])
+
+#Page 12
+SCHEDULE = command.Command("SCHEDULE", 137, []) #Add DataBytes
+SET_DAY_TIME = command.Command("SET_DAY_TIME", 168, []) #Add DataBytes
+
+#Actuator Commands
+#Page 13
+DRIVE = command.Command("DRIVE", 137, []) #Add DataBytes
+
+#Page 14
+DRIVE_DIRECT = command.Command("DRIVE_DIRECT", 145, []) #Add DataBytes
+DRIVE_PWM = command.Command("DRIVE_DIRECT", 146, []) #Add DataBytes
+
+#Page 15
+MOTORS = command.Command("MOTORS", 138, []) #Add DataBytes
+PWM_MOTORS = command.Command("PWM_MOTORS", 144, []) #Add DataBytes
+
+#Page 16
+LEDS = command.Command("LEDS", 139, []) #Add DataBytes
+SCHEDULING_LEDS = command.Command("SCHEDULING_LEDS", 162, []) #Add DataBytes
+
+#Page 17
+DIGIT_LEDS_RAW = command.Command("DIGIT_LEDS_RAW", 163, []) #Add DataBytes
+BUTTONS = command.Command("BUTTONS", 165, []) #Add DataBytes
+
+#Page 18
+DIGIT_LEDS_ASCII = command.Command("DIGIT_LEDS_ASCII", 164, []) #Add DataBytes
+
+#Page 19
+SONG = command.Command("SONG", 140, []) #Add DataBytes
+
+#Page 20
+PLAY = command.Command("PLAY", 141, []) #Add DataBytes
+
+#Input Commands
+#Page 21
+SENSORS = command.Command("PLAY", 142, []) #Add DataBytes
+QUERY_LIST = command.Command("QUERY_LIST", 149, []) #Add DataBytes
+STREAM = command.Command("STREAM", 148, []) #Add DataBytes
+
+#Page 22
+PAUSE_RESUME_STREAM = command.Command("PAUSE_RESUME_STREAM", 150, []) #Add DataBytes
+
+     
+
+#OTHERS
+BRUSHES_ON = command.Command("BRUSHES_ON", 144, [100, 100, 100])
+BRUSHES_OFF = command.Command("BRUSHES_OFF", 144, [0, 0, 0])
 WHEEL_SPAN = 235.0
 
 class SerialConnection:
@@ -55,7 +116,7 @@ class SerialConnection:
             print('              of the default 57600 - removing and')
             print('              reinstalling the battery should reset it.')
 
-        self.__sendCommand(START_OI) 
+        self.__sendCommand(START) 
         print('Putting the robot into safe mode...')
         self.__sendCommand(SAFE_MODE) 
 
@@ -65,9 +126,11 @@ class SerialConnection:
         # Roomba needs literal commands to be sent as ser.write([0x80, 0xFF, etc.])
         if self._debug==True:
             print(datetime.datetime.now(), " ", sys._getframe(0).f_code.co_name, " ", command.commandName, " ", command.opCode, " ", command.dataBytes)
-            self.ser.write(command.getByteArray())
         
-        if command == SAFE_MODE or command == FULL_MODE or command == START_OI or command == STOP_OI:
+        command.validate()
+        self.ser.write(command.getByteArray())
+
+        if command == SAFE_MODE or command == FULL_MODE or command == START or command == STOP:
             time.sleep(delaySeconds)
 
     def __go(self, cm_per_sec=0, deg_per_sec=0):
@@ -167,27 +230,27 @@ class SerialConnection:
         return ( (eqBitVal >> 8) & 0xFF, eqBitVal & 0xFF )
 
     def connect(self):
-        self.__sendCommand(START_OI)
+        self.__sendCommand(START)
         self.__sendCommand(SAFE_MODE)
         return
 
     def toSafeMode(self):
-        # Send STOP_OI command, close serial connection
-        self.__sendCommand(START_OI)
+        # Send STOP command, close serial connection
+        self.__sendCommand(START)
         self.__sendCommand(SAFE_MODE)
         # self.ser.close()
         return
 
     def toFullMode(self):
-        # Send STOP_OI command, close serial connection
-        self.__sendCommand(START_OI)
+        # Send STOP command, close serial connection
+        self.__sendCommand(START)
         self.__sendCommand(FULL_MODE)
         # self.ser.close()
         return
 
     def shutDown(self):
-        # Send STOP_OI command, close serial connection
-        self.__sendCommand(STOP_OI)
+        # Send STOP command, close serial connection
+        self.__sendCommand(STOP)
         # self.ser.close()
         return
 
@@ -217,13 +280,13 @@ class SerialConnection:
         return
 
     def brushesOn(self):
-        # Send STOP_OI command, close serial connection
+        # Send STOP command, close serial connection
         self.__sendCommand(BRUSHES_ON)
         # self.ser.close()
         return
 
     def brushesOff(self):
-        # Send STOP_OI command, close serial connection
+        # Send STOP command, close serial connection
         self.__sendCommand(BRUSHES_OFF)
         # self.ser.close()
         return

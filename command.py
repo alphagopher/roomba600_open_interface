@@ -1,4 +1,4 @@
-class RoombaCommand:
+class Command:
     def __init__(self, commandName, opCode, dataBytes):
         self.commandName = commandName
         self.opCode = opCode
@@ -6,4 +6,7 @@ class RoombaCommand:
 
     def getByteArray(self):
         return bytes([self.opCode] + self.dataBytes)
-     
+
+    def validate(self):
+        return True
+

@@ -1,9 +1,12 @@
-import roomba_interface
+import open_interface
 import time
-robot = roomba_interface.SerialConnection('COM3')
+robot = open_interface.SerialConnection('COM3')
 
 robot.moveForward()
 robot.moveBackward()
 robot.turnLeft()
 robot.turnRight()
+robot.brushesOn()
+time.sleep(.6)
+robot.brushesOff()
 robot.shutDown()
