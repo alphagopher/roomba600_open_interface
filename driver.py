@@ -10,3 +10,4 @@ robot.brushesOn()
 time.sleep(.6)
 robot.brushesOff()
 robot.shutDown()
+#done!
