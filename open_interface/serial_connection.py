@@ -1,4 +1,4 @@
-import command
+from . import command
 import sys
 import serial
 import time

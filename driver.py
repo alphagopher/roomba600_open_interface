@@ -1,6 +1,6 @@
-import open_interface
+from open_interface.serial_connection import SerialConnection
 import time
-robot = open_interface.SerialConnection('COM3')
+robot = SerialConnection('COM3')
 
 robot.moveForward()
 robot.moveBackward()
