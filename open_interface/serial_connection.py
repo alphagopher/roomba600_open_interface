@@ -12,7 +12,7 @@ RESET = command.Command("RESET", 7, [])
 STOP = command.Command("STOP", 173, [])
 
 #Page 9
-BAUD = command.Command("BAUD", 129, []) #Add DataBytes
+BAUD = command.Command("BAUD", 129, []) #1 DataByte
 
 #Page 10
 SAFE_MODE = command.Command("SAFE_MODE", 131, [])
@@ -66,9 +66,7 @@ QUERY_LIST = command.Command("QUERY_LIST", 149, []) #Add DataBytes
 STREAM = command.Command("STREAM", 148, []) #Add DataBytes
 
 #Page 22
-PAUSE_RESUME_STREAM = command.Command("PAUSE_RESUME_STREAM", 150, []) #Add DataBytes
-
-     
+PAUSE_RESUME_STREAM = command.Command("PAUSE_RESUME_STREAM", 150, []) #Add DataBytes 
 
 #OTHERS
 BRUSHES_ON = command.Command("BRUSHES_ON", 144, [100, 100, 100])
@@ -103,7 +101,6 @@ class SerialConnection:
         else:
             # print 'In Windows mode...'
             self.ser = serial.Serial(PORT-1, baudrate=BAUD_RATE, timeout=0.5)
-        
         # did the serial port actually open?
         if self.ser != 'sim' and self.ser.isOpen():
             print('Serial port did open, presumably to a roomba...')
@@ -116,13 +113,13 @@ class SerialConnection:
             print('              of the default 57600 - removing and')
             print('              reinstalling the battery should reset it.')
 
-        self.__sendCommand(START) 
+        self.sendCommand(START) 
         print('Putting the robot into safe mode...')
-        self.__sendCommand(SAFE_MODE) 
+        self.sendCommand(SAFE_MODE) 
 
     _debug = True
 
-    def __sendCommand(self, command, delaySeconds=0.2):
+    def sendCommand(self, command, delaySeconds=0.2):
         # Roomba needs literal commands to be sent as ser.write([0x80, 0xFF, etc.])
         if self._debug==True:
             print(datetime.datetime.now(), " ", sys._getframe(0).f_code.co_name, " ", command.commandName, " ", command.opCode, " ", command.dataBytes)
@@ -208,11 +205,11 @@ class SerialConnection:
         # send these bytes and set the stored velocities
         tmpCommand = DRIVE
         tmpCommand.dataBytes = [velHighVal, velLowVal, radiusHighVal, radiusLowVal]
-        self.__sendCommand(tmpCommand)
-        #self.__sendCommand( velHighVal )
-        #self.__sendCommand( velLowVal )
-        #self.__sendCommand( radiusHighVal )
-        #self.__sendCommand( radiusLowVal )
+        self.sendCommand(tmpCommand)
+        #self.sendCommand( velHighVal )
+        #self.sendCommand( velLowVal )
+        #self.sendCommand( radiusHighVal )
+        #self.sendCommand( radiusLowVal )
 
     def __toTwosComplement2Bytes(self, value):
 
@@ -230,32 +227,31 @@ class SerialConnection:
         return ( (eqBitVal >> 8) & 0xFF, eqBitVal & 0xFF )
 
     def connect(self):
-        self.__sendCommand(START)
-        self.__sendCommand(SAFE_MODE)
+        self.sendCommand(START)
+        self.sendCommand(SAFE_MODE)
         return
 
     def toSafeMode(self):
         # Send STOP command, close serial connection
-        self.__sendCommand(START)
-        self.__sendCommand(SAFE_MODE)
+        self.sendCommand(START)
+        self.sendCommand(SAFE_MODE)
         # self.ser.close()
         return
 
     def toFullMode(self):
         # Send STOP command, close serial connection
-        self.__sendCommand(START)
-        self.__sendCommand(FULL_MODE)
+        self.sendCommand(START)
+        self.sendCommand(FULL_MODE)
         # self.ser.close()
         return
 
     def shutDown(self):
         # Send STOP command, close serial connection
-        self.__sendCommand(STOP)
+        self.sendCommand(STOP)
         # self.ser.close()
         return
 
     def moveForward(self):
-        print("Sending command - ")
         self.__go(30,0)
         time.sleep(0.5)
         self.__go(0,0)
@@ -281,12 +277,12 @@ class SerialConnection:
 
     def brushesOn(self):
         # Send STOP command, close serial connection
-        self.__sendCommand(BRUSHES_ON)
+        self.sendCommand(BRUSHES_ON)
         # self.ser.close()
         return
 
     def brushesOff(self):
         # Send STOP command, close serial connection
-        self.__sendCommand(BRUSHES_OFF)
+        self.sendCommand(BRUSHES_OFF)
         # self.ser.close()
         return

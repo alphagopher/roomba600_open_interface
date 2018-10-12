@@ -1,12 +1,12 @@
 class Command:
-    def __init__(self, commandName, opCode, dataBytes):
+    def __init__(self, commandName, opCode, dataBytes=[]):
         self.commandName = commandName
         self.opCode = opCode
         self.dataBytes = dataBytes
-
+        
     def getByteArray(self):
         return bytes([self.opCode] + self.dataBytes)
 
-    def validate(self):
-        return True
-
+class StartCommand(Command):
+    def __init__(self):
+        Command.__init__(self, "START", 128, [])
