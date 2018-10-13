@@ -1,6 +1,6 @@
-from open_interface.receivers import SerialReceiver
-from open_interface.commands import *
-from open_interface.invoker import Invoker
+from roomba600_open_interface.receivers import SerialReceiver
+from roomba600_open_interface.commands import *
+from roomba600_open_interface.invoker import Invoker
 
 import time
 
