@@ -17,10 +17,12 @@ invoker.executeCommands()
 
 time.sleep(.6)
 
-invoker.storeCommand(BrushesOnCommand(receiver))
+invoker.storeCommand(PwmMotorCommand(receiver, [100, 100, 100]))
 invoker.executeCommands()
+
 time.sleep(.6)
-invoker.storeCommand(BrushesOffCommand(receiver))
+invoker.storeCommand(PwmMotorCommand(receiver, [0, 0, 0]))
+invoker.storeCommand(StopCommand(receiver))
 invoker.executeCommands()
 
 # invoker = Invoker()
