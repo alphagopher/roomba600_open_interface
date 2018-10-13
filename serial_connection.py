@@ -113,9 +113,9 @@ class SerialConnection:
             print('              of the default 57600 - removing and')
             print('              reinstalling the battery should reset it.')
 
-        self.sendCommand(START) 
+        # self.sendCommand(START) 
         print('Putting the robot into safe mode...')
-        self.sendCommand(SAFE_MODE) 
+        # self.sendCommand(SAFE_MODE) 
 
     _debug = True
 
