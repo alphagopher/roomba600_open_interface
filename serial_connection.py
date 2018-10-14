@@ -1,4 +1,4 @@
-from . import command
+from roomba600_open_interface.commands import *
 import sys
 import serial
 import time
@@ -121,14 +121,11 @@ class SerialConnection:
 
     def sendCommand(self, command, delaySeconds=0.2):
         # Roomba needs literal commands to be sent as ser.write([0x80, 0xFF, etc.])
-        if self._debug==True:
-            print(datetime.datetime.now(), " ", sys._getframe(0).f_code.co_name, " ", command.commandName, " ", command.opCode, " ", command.dataBytes)
+        # if self._debug==True:
+        #     print(datetime.datetime.now(), " ", sys._getframe(0).f_code.co_name, " ", command.commandName, " ", command.opCode, " ", command.dataBytes)
         
-        command.validate()
+        # command.validate()
         self.ser.write(command.getByteArray())
-
-        if command == SAFE_MODE or command == FULL_MODE or command == START or command == STOP:
-            time.sleep(delaySeconds)
 
     def __go(self, cm_per_sec=0, deg_per_sec=0):
         # need to convert to the roomba's drive parameters
@@ -203,7 +200,8 @@ class SerialConnection:
         #print 'bytes are', velHighVal, velLowVal, radiusHighVal, radiusLowVal
         
         # send these bytes and set the stored velocities
-        tmpCommand = DRIVE
+        tmpCommand = DriveCommand
+        print(velHighVal, velLowVal, radiusHighVal, radiusLowVal)
         tmpCommand.dataBytes = [velHighVal, velLowVal, radiusHighVal, radiusLowVal]
         self.sendCommand(tmpCommand)
         #self.sendCommand( velHighVal )
@@ -227,27 +225,20 @@ class SerialConnection:
         return ( (eqBitVal >> 8) & 0xFF, eqBitVal & 0xFF )
 
     def connect(self):
-        self.sendCommand(START)
-        self.sendCommand(SAFE_MODE)
+        self.sendCommand(StartCommand)
+        self.sendCommand(SafeModeCommand)
         return
 
     def toSafeMode(self):
         # Send STOP command, close serial connection
-        self.sendCommand(START)
-        self.sendCommand(SAFE_MODE)
-        # self.ser.close()
-        return
-
-    def toFullMode(self):
-        # Send STOP command, close serial connection
-        self.sendCommand(START)
-        self.sendCommand(FULL_MODE)
+        self.sendCommand(StartCommand)
+        self.sendCommand(SafeModeCommand)
         # self.ser.close()
         return
 
     def shutDown(self):
         # Send STOP command, close serial connection
-        self.sendCommand(STOP)
+        self.sendCommand(StopCommand)
         # self.ser.close()
         return
 
@@ -273,16 +264,4 @@ class SerialConnection:
         self.__go(0,-100)
         time.sleep(0.5)
         self.__go(0,0)
-        return
-
-    def brushesOn(self):
-        # Send STOP command, close serial connection
-        self.sendCommand(BRUSHES_ON)
-        # self.ser.close()
-        return
-
-    def brushesOff(self):
-        # Send STOP command, close serial connection
-        self.sendCommand(BRUSHES_OFF)
-        # self.ser.close()
         return

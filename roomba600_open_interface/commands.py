@@ -31,13 +31,20 @@ class StopCommand(Command):
 class SafeModeCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
-        self.commandName = "SafeMode"
+        self.commandName = "SafeModeCommand"
         self.opCode = 131
         self.dataBytes = dataBytes
 
 class PwmMotorCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
-        self.commandName = "BrushesOn"
+        self.commandName = "PwmMotorCommand"
         self.opCode = 144
+        self.dataBytes = dataBytes
+
+class DriveCommand(Command):
+    def __init__(self, receiver, dataBytes=[]):
+        self._receiver = receiver
+        self.commandName = "DriveCommand"
+        self.opCode = 137
         self.dataBytes = dataBytes
