@@ -13,3 +13,11 @@ The intent of this interface implementation is a pet project to enable others a 
 # References
 * Abstraction layer for [iRobot Roomba Create 2 / 600 Series Open Interface Spec](https://www.irobotweb.com/~/media/MainSite/PDFs/About/STEM/Create/iRobot_Roomba_600_Open_Interface_Spec.pdf)
 * [USB to DIN Cable For Connecting to Roomba Serial Port](https://www.amazon.com/EZSync-Serial-Roomba-Create-EZSync018/dp/B06XDPMY4Z)
+
+# TODO
+* Dockerize
+* Add remaining commands
+* Add Logging
+
+
+
