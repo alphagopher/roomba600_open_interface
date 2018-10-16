@@ -14,6 +14,7 @@ class Command():
     def execute(self):
         self._receiver.sendToDevice(self)
 
+# Command: Start--Opcode 128--Databytes: 0
 class StartCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
@@ -21,6 +22,15 @@ class StartCommand(Command):
         self.opCode = 128
         self.dataBytes = dataBytes
 
+# Command: Reset--Opcode 7--Databytes: 0
+class ResetCommand(Command):
+    def __init__(self, receiver, dataBytes=[]):
+        self._receiver = receiver
+        self.commandName = "ResetCommand"
+        self.opCode = 7
+        self.dataBytes = dataBytes
+
+# Command: Stop--Opcode 173--Databytes: 0
 class StopCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
@@ -28,11 +38,28 @@ class StopCommand(Command):
         self.opCode = 173
         self.dataBytes = dataBytes
 
-class SafeModeCommand(Command):
+# Command: Baud--Opcode 129--Databytes: 0
+class BaudCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
-        self.commandName = "SafeModeCommand"
+        self.commandName = "BaudCommand"
+        self.opCode = 129
+        self.dataBytes = dataBytes
+
+# Command: Safe--Opcode 131--Databytes: 0
+class SafeCommand(Command):
+    def __init__(self, receiver, dataBytes=[]):
+        self._receiver = receiver
+        self.commandName = "SafeCommand"
         self.opCode = 131
+        self.dataBytes = dataBytes
+
+# Command: Full--Opcode 132--Databytes: 0
+class FullCommand(Command):
+    def __init__(self, receiver, dataBytes=[]):
+        self._receiver = receiver
+        self.commandName = "FullCommand"
+        self.opCode = 132
         self.dataBytes = dataBytes
 
 class PwmMotorCommand(Command):

@@ -4,9 +4,6 @@ from roomba600_open_interface.invoker import Invoker
 
 import time
 
-# receiver = Receiver()
-# concrete_command = ConcreteCommand(receiver)
-
 receiver = SerialReceiver("COM3")
 
 invoker = Invoker()
@@ -17,10 +14,12 @@ invoker.executeCommands()
 
 time.sleep(.6)
 
+# start brushes
 invoker.storeCommand(PwmMotorCommand(receiver, [100, 100, 100]))
 invoker.executeCommands()
 
 time.sleep(.6)
+# stop brushes
 invoker.storeCommand(PwmMotorCommand(receiver, [0, 0, 0]))
 invoker.storeCommand(StopCommand(receiver))
 invoker.executeCommands()

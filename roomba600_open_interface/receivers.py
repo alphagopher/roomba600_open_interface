@@ -2,7 +2,6 @@ import serial
 
 class SerialReceiver:
     def __init__(self, PORT, BAUD_RATE=115200):
-
         self.ser = serial.Serial(PORT, baudrate=BAUD_RATE, timeout=0.5)
 
         if self.ser.isOpen():
