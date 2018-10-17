@@ -1,7 +1,7 @@
 class Packet:
     def __init__(self, packetName, packetId, dataBytes):
-        self.packetName = packetName
         self.packetId = packetId
+        self.packetName = packetName
         self.dataBytes = dataBytes
 
     def getByteArray(self):
