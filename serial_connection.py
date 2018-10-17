@@ -226,13 +226,13 @@ class SerialConnection:
 
     def connect(self):
         self.sendCommand(StartCommand)
-        self.sendCommand(SafeModeCommand)
+        # self.sendCommand(SafeModeCommand)
         return
 
     def toSafeMode(self):
         # Send STOP command, close serial connection
         self.sendCommand(StartCommand)
-        self.sendCommand(SafeModeCommand)
+        # self.sendCommand(SafeModeCommand)
         # self.ser.close()
         return
 
