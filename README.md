@@ -15,7 +15,7 @@ The intent of this interface implementation is a pet project to enable others a 
 * [USB to DIN Cable For Connecting to Roomba Serial Port](https://www.amazon.com/EZSync-Serial-Roomba-Create-EZSync018/dp/B06XDPMY4Z)
 
 # TODO
-* Dockerize
+* Add validators to commands for data bytes
 * Add remaining commands
 * Add Logging
 

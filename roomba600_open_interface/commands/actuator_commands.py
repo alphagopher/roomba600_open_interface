@@ -2,33 +2,33 @@ from .command import Command
 
 # Command: Drive
 # Opcode: 137
-# Databytes: 4
 class DriveCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
         self.commandName = "DriveCommand"
         self.opCode = 137
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 4
 
 # Command: DriveDirect
 # Opcode: 145
-# Databytes: 4
 class DriveDirectCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
         self.commandName = "DriveDirectCommand"
         self.opCode = 145
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 4
 
 # Command: DrivePwm
 # Opcode: 146
-# Databytes: 4
 class DrivePwmCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
         self.commandName = "DrivePwmCommand"
         self.opCode = 146
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 4
 
 # Command: Motors
 # Opcode: 138
@@ -38,7 +38,8 @@ class MotorsCommand(Command):
         self._receiver = receiver
         self.commandName = "MotorsCommand"
         self.opCode = 138
-        self.dataBytes = dataBytes        
+        self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 1        
 
 # Command: PwmMotors
 # Opcode: 144
@@ -49,6 +50,7 @@ class PwmMotorsCommand(Command):
         self.commandName = "PwmMotorsCommand"
         self.opCode = 144
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 3
 
 # Command: LEDs
 # Opcode: 139
@@ -59,6 +61,7 @@ class LEDsCommand(Command):
         self.commandName = "LEDsCommand"
         self.opCode = 139
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 3
 
 # Command: SchedulingLEDs
 # Opcode: 162
@@ -69,6 +72,7 @@ class SchedulingLEDsCommand(Command):
         self.commandName = "SchedulingLEDsCommand"
         self.opCode = 162
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 2
 
 # Command: DigitLEDsRaw
 # Opcode: 163
@@ -78,6 +82,7 @@ class DigitLEDsRawCommand(Command):
         self.commandName = "DigitLEDsRawCommand"
         self.opCode = 163
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 4
 
 # Command: Buttons
 # Opcode: 165
@@ -87,6 +92,7 @@ class ButtonsCommand(Command):
         self.commandName = "ButtonsCommand"
         self.opCode = 165
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 1
 
 # Command: DigitLEDsAscii
 # Opcode: 164
@@ -96,15 +102,18 @@ class DigitLEDsAsciiCommand(Command):
         self.commandName = "DigitLEDsAsciiCommand"
         self.opCode = 164
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 4
 
 # Command: Song
 # Opcode: 140
+# TODO: Improve validation to be 2N+2 length where n is number of notes in song
 class SongCommand(Command):
     def __init__(self, receiver, dataBytes=[]):
         self._receiver = receiver
         self.commandName = "SongCommand"
         self.opCode = 140
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 4
 
 # Command: Play
 # Opcode: 141
@@ -114,3 +123,4 @@ class PlayCommand(Command):
         self.commandName = "PlayCommand"
         self.opCode = 141
         self.dataBytes = dataBytes
+        self.dataBytesRequiredLength = 1
