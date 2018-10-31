@@ -9,9 +9,5 @@ class RoombaSerialConnection:
         else:
             print("Could not open serial port", PORT)
 
-    #TODO: add isOpen
-    #TODO: add close
-
     def sendToDevice(self, command):
         self.ser.write(command.getByteArray())
-        pass
