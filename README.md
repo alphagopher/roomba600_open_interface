@@ -17,8 +17,11 @@ The intent of this interface implementation is a pet project to enable others a 
 # Sample Raw pyserial Code
 ```python
 import serial
+
 # Open new connection (NOTE, change port)
 ser = serial.Serial("COM3", baudrate=115200, timeout=0.5)
+
+# Actuator Commands
 # Send "Start" Opcode to start Open Interface, Roomba in Passive Mode
 ser.write(bytes([128]))
 # Send "Safe Mode" Opcode to enable Roomba to respond to commands
@@ -28,6 +31,17 @@ ser.write(bytes([144,100,100,100]))
 timer.sleep(.6)
 # Stop Brushes
 ser.write(bytes([144,0,0,0]))
+
+# Input Commands (Read State / Sensors)
+# Ask for Sensor Packed ID 21 (Battery Charging State)
+ser.write(bytes([142, 21]))
+# returns 1, for single byte in input buffer for Packet Id 21
+ser.in_waiting
+# read input buffer
+tmp = ser.read(1)
+# convert byte response to integer
+int.from_bytes(tmp, byteorder='big', signed=False)
+# will return 2 for Full Charging State
 ```
 
 # TODO
