@@ -8,7 +8,7 @@ class Invoker:
 
     def __init__(self):
         self._commands = []
-        self._Debug = True
+        self._Debug = False
 
     def storeCommand(self, command):
         if(command.isValid()):
@@ -19,9 +19,9 @@ class Invoker:
             print("Could Not Store Invalid Command - ", command.toLogString())
 
     def executeCommands(self):
-        print("-----Executing", len(self._commands), "Commands-----")
+        if(self._Debug == True):
+            print("-----Executing ", len(self._commands), "Commands-----")
+
         for command in self._commands:
             command.execute()
-            if(self._Debug == True):
-                print("Executed Command - ", command.toLogString())
         self._commands = []
