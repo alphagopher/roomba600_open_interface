@@ -27,8 +27,9 @@ class RoombaSerialConnection:
                     time.sleep(.15)
                     print("Sensor Packet - ", sensorPacket.toLogString(), "[Input Buffer Size.. ", self.ser.in_waiting, "...Reading...", sensorPacket.dataBytesReturned)
                     
-                    tmp = self.ser.read(sensorPacket.dataBytesReturned)
-                    print("Sensor Reading: ", int.from_bytes(tmp, byteorder='big', signed=sensorPacket.signed))
+                    sensorPacket.responseBytes = self.ser.read(sensorPacket.dataBytesReturned)
+
+                    print("Sensor Reading: ", int.from_bytes(sensorPacket.responseBytes, byteorder='big', signed=sensorPacket.signed))
         except Exception as e: 
             print(e)
             self.ser.reset_input_buffer()

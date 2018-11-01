@@ -4,6 +4,7 @@ class SensorPacket:
         self.packetName = packetName
         self.dataBytesReturned = 0
         self.signed = False
+        self.responseBytes = []
 
     def getIntArray(self):
         return [self.packetId]
